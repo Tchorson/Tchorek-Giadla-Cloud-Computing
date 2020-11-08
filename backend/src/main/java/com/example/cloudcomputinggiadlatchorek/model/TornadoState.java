@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Getter
@@ -16,24 +17,30 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "tornadostate")
 @AllArgsConstructor
-@IdClass(TornadoStateCompositeKey.class)
-public class TornadoState {
+@IdClass(TornadoState.class)
+public class TornadoState implements Serializable {
+
     @Id
     @NonNull
+    @Column(name = "datemeasure")
     private Timestamp date;
 
     @Id
     @NonNull
+    @Column(name = "location")
     private String location;
 
     @NonNull
+    @Column(name = "dtemp")
     private Float dTemp;
 
     @NonNull
+    @Column(name = "windspeed")
     private Float windSpeed;
 
     @Enumerated(EnumType.STRING)
     @NonNull
+    @Column(name = "tornadolvl")
     private Category tornadoLvl;
 
     public TornadoState() {
