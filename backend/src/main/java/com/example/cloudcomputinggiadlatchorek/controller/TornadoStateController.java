@@ -1,6 +1,7 @@
 package com.example.cloudcomputinggiadlatchorek.controller;
 
 import com.example.cloudcomputinggiadlatchorek.repositories.TornadoStateRepository;
+import com.example.cloudcomputinggiadlatchorek.service.TornadoStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TornadoStateController {
 
     @Autowired
-    TornadoStateRepository tornadoStateRepository;
+    TornadoStateService tornadoStateService;
 
-    @GetMapping(path = "/test")
+    @GetMapping(path = "/getAllRecords")
     public void getCollections(){
-        tornadoStateRepository.findAll().forEach(tornadoState -> System.out.println(tornadoState.toString()));
+        tornadoStateService.getAllRecords();
     }
+
+
 }
