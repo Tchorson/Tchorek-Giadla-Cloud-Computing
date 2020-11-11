@@ -35,7 +35,7 @@ public class TornadoStateService {
         return tornadoStateRepository.findAll();
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "*/30 * * * * *")
     public void getWeatherApi(){
         RestTemplate restTemplate = new RestTemplate();
 
@@ -43,11 +43,17 @@ public class TornadoStateService {
                 = restTemplate.getForEntity(tornadoStateConfig.getApiURL(), String.class);
         System.out.println(response.getBody());
         JsonObject jobj = new Gson().fromJson(response.getBody(), JsonObject.class);
+        Float tempMin = jobj.getAsJsonObject("main").get("temp_min").getAsFloat();
+        Float tempMax = jobj.getAsJsonObject("main").get("temp_max").getAsFloat();
+        Float lat = jobj.getAsJsonObject("coord").get("lat").getAsFloat();
+        Float lng = jobj.getAsJsonObject("coord").get("lon").getAsFloat();
+        Float wind = jobj.getAsJsonObject("wind").get("speed").getAsFloat();
+        String location = jobj.getAsJsonPrimitive("name").getAsString();
+        TornadoState t =new TornadoState(location, lat, lng, tempMax - tempMin, wind);
+        cache.add(t);
+    }
 
-
-        System.out.println(jobj.getAsJsonObject("main").get("temp_min"));
-        System.out.println(jobj.getAsJsonObject("main").get("temp_max"));
-        System.out.println(jobj.getAsJsonObject("coord").get("lon"));
-        System.out.println(jobj.getAsJsonObject("coord").get("lat"));
+    public List<TornadoState>getCache(){
+        return this.cache;
     }
 }
