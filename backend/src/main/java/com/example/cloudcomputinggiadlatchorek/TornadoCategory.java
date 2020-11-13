@@ -1,6 +1,6 @@
 package com.example.cloudcomputinggiadlatchorek;
 
-public enum Category {
+public enum TornadoCategory {
     F0,
     F1,
     F2,

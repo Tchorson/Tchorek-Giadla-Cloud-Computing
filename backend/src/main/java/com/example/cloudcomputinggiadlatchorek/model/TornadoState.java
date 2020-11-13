@@ -1,7 +1,6 @@
 package com.example.cloudcomputinggiadlatchorek.model;
 
-import com.example.cloudcomputinggiadlatchorek.Category;
-import lombok.AllArgsConstructor;
+import com.example.cloudcomputinggiadlatchorek.TornadoCategory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -44,11 +43,15 @@ public class TornadoState implements Serializable {
     @NonNull
     @Column(name = "longitude")
     private Float longitude;
+    
+    @NonNull
+    @Column(name = "humidity")
+    private Float humidity;
 
     @Enumerated(EnumType.STRING)
     @NonNull
     @Column(name = "tornadolvl")
-    private Category tornadoLvl;
+    private TornadoCategory tornadoLvl;
 
     public TornadoState() {
         this.date = new Timestamp(System.currentTimeMillis());
@@ -57,17 +60,19 @@ public class TornadoState implements Serializable {
         this.longitude= 0.0F;
         this.dTemp = 0.0f;
         this.windSpeed = 0.0f;
-        tornadoLvl = Category.F0;
+        this.humidity = 0.0f;
+        tornadoLvl = TornadoCategory.F0;
     }
 
-    public TornadoState(String location, Float latitude, Float longitude, Float delta, Float wind) {
+    public TornadoState(String location, Float latitude, Float longitude, Float delta, Float wind, Float humidity) {
         this.date = new Timestamp(System.currentTimeMillis());
         this.location = location;
         this.latitude = latitude;
         this.longitude= longitude;
         this.dTemp = delta;
         this.windSpeed = wind;
-        tornadoLvl = Category.F0;
+        this.humidity = humidity;
+        tornadoLvl = TornadoCategory.F0;
     }
 
 }

@@ -48,8 +48,9 @@ public class TornadoStateService {
         Float lat = jobj.getAsJsonObject("coord").get("lat").getAsFloat();
         Float lng = jobj.getAsJsonObject("coord").get("lon").getAsFloat();
         Float wind = jobj.getAsJsonObject("wind").get("speed").getAsFloat();
+        Float humidity = jobj.getAsJsonObject("main").get("humidity").getAsFloat();
         String location = jobj.getAsJsonPrimitive("name").getAsString();
-        TornadoState t =new TornadoState(location, lat, lng, tempMax - tempMin, wind);
+        TornadoState t =new TornadoState(location, lat, lng, tempMax - tempMin, wind, humidity);
         cache.add(t);
     }
 
