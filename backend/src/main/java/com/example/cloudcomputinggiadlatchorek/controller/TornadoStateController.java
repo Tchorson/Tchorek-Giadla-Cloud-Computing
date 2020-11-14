@@ -1,5 +1,6 @@
 package com.example.cloudcomputinggiadlatchorek.controller;
 
+import com.example.cloudcomputinggiadlatchorek.logic.FuzzyLogic;
 import com.example.cloudcomputinggiadlatchorek.service.TornadoStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,5 @@ public class TornadoStateController {
     public void getCollections(){
         tornadoStateService.getAllRecords();
     }
-
 
 }

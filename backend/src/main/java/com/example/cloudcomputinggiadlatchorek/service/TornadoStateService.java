@@ -1,6 +1,7 @@
 package com.example.cloudcomputinggiadlatchorek.service;
 
 import com.example.cloudcomputinggiadlatchorek.config.TornadoStateConfig;
+import com.example.cloudcomputinggiadlatchorek.logic.FuzzyLogic;
 import com.example.cloudcomputinggiadlatchorek.model.TornadoState;
 import com.example.cloudcomputinggiadlatchorek.repositories.TornadoStateRepository;
 import com.google.gson.Gson;
@@ -21,13 +22,15 @@ public class TornadoStateService {
 
     TornadoStateRepository tornadoStateRepository;
     TornadoStateConfig tornadoStateConfig;
+    FuzzyLogic fuzzyLogic;
 
     List<TornadoState> cache;
 
     @Autowired
-    public TornadoStateService(TornadoStateRepository tornadoStateRepository, TornadoStateConfig tornadoStateConfig) {
+    public TornadoStateService(TornadoStateRepository tornadoStateRepository, TornadoStateConfig tornadoStateConfig, FuzzyLogic fuzzyLogic) {
         this.tornadoStateRepository = tornadoStateRepository;
         this.tornadoStateConfig = tornadoStateConfig;
+        this.fuzzyLogic = fuzzyLogic;
         this.cache = new LinkedList<>();
     }
 
