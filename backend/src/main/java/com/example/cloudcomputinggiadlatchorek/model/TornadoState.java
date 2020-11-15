@@ -30,23 +30,23 @@ public class TornadoState implements Serializable {
 
     @NonNull
     @Column(name = "dtemp")
-    private Float dTemp;
+    private Double dTemp;
 
     @NonNull
     @Column(name = "windspeed")
-    private Float windSpeed;
+    private Double windSpeed;
 
     @NonNull
     @Column(name = "latitude")
-    private Float latitude;
+    private Double latitude;
 
     @NonNull
     @Column(name = "longitude")
-    private Float longitude;
+    private Double longitude;
     
     @NonNull
     @Column(name = "humidity")
-    private Float humidity;
+    private Double humidity;
 
     @Enumerated(EnumType.STRING)
     @NonNull
@@ -56,15 +56,15 @@ public class TornadoState implements Serializable {
     public TornadoState() {
         this.date = new Timestamp(System.currentTimeMillis());
         this.location = "";
-        this.latitude = 0.0F;
-        this.longitude= 0.0F;
-        this.dTemp = 0.0f;
-        this.windSpeed = 0.0f;
-        this.humidity = 0.0f;
+        this.latitude = 0.0;
+        this.longitude= 0.0;
+        this.dTemp = 0.0;
+        this.windSpeed = 0.0;
+        this.humidity = 0.0;
         tornadoLvl = TornadoCategory.F0;
     }
 
-    public TornadoState(String location, Float latitude, Float longitude, Float delta, Float wind, Float humidity) {
+    public TornadoState(String location, Double latitude, Double longitude, Double delta, Double wind, Double humidity) {
         this.date = new Timestamp(System.currentTimeMillis());
         this.location = location;
         this.latitude = latitude;

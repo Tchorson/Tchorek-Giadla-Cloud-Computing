@@ -46,15 +46,17 @@ public class TornadoStateService {
                 = restTemplate.getForEntity(tornadoStateConfig.getApiURL(), String.class);
         System.out.println(response.getBody());
         JsonObject jobj = new Gson().fromJson(response.getBody(), JsonObject.class);
-        Float tempMin = jobj.getAsJsonObject("main").get("temp_min").getAsFloat();
-        Float tempMax = jobj.getAsJsonObject("main").get("temp_max").getAsFloat();
-        Float lat = jobj.getAsJsonObject("coord").get("lat").getAsFloat();
-        Float lng = jobj.getAsJsonObject("coord").get("lon").getAsFloat();
-        Float wind = jobj.getAsJsonObject("wind").get("speed").getAsFloat();
-        Float humidity = jobj.getAsJsonObject("main").get("humidity").getAsFloat();
+        double tempMin = jobj.getAsJsonObject("main").get("temp_min").getAsDouble();
+        double tempMax = jobj.getAsJsonObject("main").get("temp_max").getAsDouble();
+        double lat = jobj.getAsJsonObject("coord").get("lat").getAsDouble();
+        double lng = jobj.getAsJsonObject("coord").get("lon").getAsDouble();
+        double wind = jobj.getAsJsonObject("wind").get("speed").getAsDouble();
+        double humidity = jobj.getAsJsonObject("main").get("humidity").getAsDouble();
         String location = jobj.getAsJsonPrimitive("name").getAsString();
         TornadoState t =new TornadoState(location, lat, lng, tempMax - tempMin, wind, humidity);
         cache.add(t);
+        System.out.println(this.fuzzyLogic.inference(humidity, tempMax - tempMin, wind).toString());
+        //System.out.println(humidity);
     }
 
     public List<TornadoState>getCache(){

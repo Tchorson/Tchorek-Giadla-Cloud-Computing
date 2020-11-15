@@ -1,5 +1,6 @@
 package com.example.cloudcomputinggiadlatchorek.logic;
 
+import com.example.cloudcomputinggiadlatchorek.TornadoCategory;
 import com.fuzzylite.*;
 import com.fuzzylite.imex.FllImporter;
 import com.fuzzylite.variable.InputVariable;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+
+import static java.lang.Math.floor;
 
 @Component
 public class FuzzyLogic {
@@ -34,12 +37,27 @@ public class FuzzyLogic {
 
         //System.out.println(engine.getOutputVariables().toString());
 
-        InputVariable humidity = engine.getInputVariable("humidity");
-        InputVariable temperature = engine.getInputVariable("temperature");
-        InputVariable windSpeed = engine.getInputVariable("windSpeed");
+        humidity = engine.getInputVariable("humidity");
+        temperature = engine.getInputVariable("temperature");
+        windSpeed = engine.getInputVariable("windSpeed");
 
-        OutputVariable dangerlvl = engine.getOutputVariable("dangerlvl");
+        dangerlvl = engine.getOutputVariable("dangerlvl");
     }
 
+    public TornadoCategory inference(Double humidity, Double temperature, Double windSpeed) {
+        this.humidity.setValue(humidity);
+        this.temperature.setValue(temperature);
+        this.windSpeed.setValue(windSpeed);
 
+        this.engine.process();
+
+        double value = this.dangerlvl.getValue();
+
+        for (TornadoCategory tornadoCat: TornadoCategory.values()) {
+            if (tornadoCat.getValue() == floor(value)) {
+                return tornadoCat;
+            }
+        }
+        return TornadoCategory.UNKNOWN;
+    }
 }
