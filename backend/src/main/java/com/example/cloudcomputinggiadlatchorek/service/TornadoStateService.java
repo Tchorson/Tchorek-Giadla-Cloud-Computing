@@ -1,11 +1,13 @@
 package com.example.cloudcomputinggiadlatchorek.service;
 
+import com.example.cloudcomputinggiadlatchorek.TornadoCategory;
 import com.example.cloudcomputinggiadlatchorek.config.TornadoStateConfig;
 import com.example.cloudcomputinggiadlatchorek.logic.FuzzyLogic;
 import com.example.cloudcomputinggiadlatchorek.model.TornadoState;
 import com.example.cloudcomputinggiadlatchorek.repositories.TornadoStateRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class TornadoStateService {
         ResponseEntity<String> response
                 = restTemplate.getForEntity(tornadoStateConfig.getApiURL(), String.class);
         System.out.println(response.getBody());
+
         JsonObject jobj = new Gson().fromJson(response.getBody(), JsonObject.class);
         double tempMin = jobj.getAsJsonObject("main").get("temp_min").getAsDouble();
         double tempMax = jobj.getAsJsonObject("main").get("temp_max").getAsDouble();
@@ -52,11 +56,15 @@ public class TornadoStateService {
         double lng = jobj.getAsJsonObject("coord").get("lon").getAsDouble();
         double wind = jobj.getAsJsonObject("wind").get("speed").getAsDouble();
         double humidity = jobj.getAsJsonObject("main").get("humidity").getAsDouble();
+        long date = jobj.getAsJsonPrimitive("dt").getAsLong();
         String location = jobj.getAsJsonPrimitive("name").getAsString();
-        TornadoState t =new TornadoState(location, lat, lng, tempMax - tempMin, wind, humidity);
+
+        double dTemp = (tempMax - tempMin)/2;
+
+        TornadoCategory tornadoCategory = this.fuzzyLogic.inference(humidity, dTemp, wind);
+        TornadoState t = new TornadoState(location, date, lat, lng, dTemp, wind, humidity, tornadoCategory);
         cache.add(t);
-        System.out.println(this.fuzzyLogic.inference(humidity, tempMax - tempMin, wind).toString());
-        //System.out.println(humidity);
+        tornadoStateRepository.save(t);
     }
 
     public List<TornadoState>getCache(){

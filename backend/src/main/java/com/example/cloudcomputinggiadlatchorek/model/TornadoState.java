@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -21,7 +19,7 @@ public class TornadoState implements Serializable {
     @Id
     @NonNull
     @Column(name = "datemeasure")
-    private Timestamp date;
+    private Long date;
 
     @Id
     @NonNull
@@ -54,7 +52,7 @@ public class TornadoState implements Serializable {
     private TornadoCategory tornadoLvl;
 
     public TornadoState() {
-        this.date = new Timestamp(System.currentTimeMillis());
+        this.date = 0L;
         this.location = "";
         this.latitude = 0.0;
         this.longitude= 0.0;
@@ -64,15 +62,16 @@ public class TornadoState implements Serializable {
         tornadoLvl = TornadoCategory.F0;
     }
 
-    public TornadoState(String location, Double latitude, Double longitude, Double delta, Double wind, Double humidity) {
-        this.date = new Timestamp(System.currentTimeMillis());
+    public TornadoState(@NonNull String location, @NonNull Long date, @NonNull Double latitude, @NonNull Double longitude,
+                        @NonNull Double delta, @NonNull Double wind, @NonNull Double humidity, @NonNull TornadoCategory category) {
+        this.date = date;
         this.location = location;
         this.latitude = latitude;
         this.longitude= longitude;
         this.dTemp = delta;
         this.windSpeed = wind;
         this.humidity = humidity;
-        tornadoLvl = TornadoCategory.F0;
+        tornadoLvl = category;
     }
 
 }
