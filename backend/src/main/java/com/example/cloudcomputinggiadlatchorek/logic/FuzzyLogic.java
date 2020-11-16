@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 
-import static java.lang.Math.floor;
+import static java.lang.Math.ceil;
 
 @Component
 public class FuzzyLogic {
@@ -26,7 +26,7 @@ public class FuzzyLogic {
      * Initialization engine of fuzzy logic
      */
     public FuzzyLogic() throws IOException, RuntimeException {
-        File file = new File("D:\\JavaProjects\\Tchorek-Giadla-Cloud-Computing\\backend\\src\\main\\resources\\configFiles\\fuzzylogic.fll");
+        File file = new File("backend/src/main/resources/configFiles/fuzzylogic.fll");
         StringBuilder status = new StringBuilder();
         try {
             this.engine = new FllImporter().fromFile(file);
@@ -54,7 +54,7 @@ public class FuzzyLogic {
         double value = this.dangerlvl.getValue();
 
         for (TornadoCategory tornadoCat: TornadoCategory.values()) {
-            if (tornadoCat.getValue() == floor(value)) {
+            if (tornadoCat.getValue() == ceil(value)) {
                 return tornadoCat;
             }
         }
