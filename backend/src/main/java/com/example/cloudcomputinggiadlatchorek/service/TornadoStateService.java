@@ -7,7 +7,6 @@ import com.example.cloudcomputinggiadlatchorek.model.TornadoState;
 import com.example.cloudcomputinggiadlatchorek.repositories.TornadoStateRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -15,7 +14,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,10 +57,11 @@ public class TornadoStateService {
         long date = jobj.getAsJsonPrimitive("dt").getAsLong();
         String location = jobj.getAsJsonPrimitive("name").getAsString();
 
-        double dTemp = (tempMax - tempMin)/2;
+        double dTemp = (tempMax + tempMin)/2;
 
         TornadoCategory tornadoCategory = this.fuzzyLogic.inference(humidity, dTemp, wind);
-        TornadoState t = new TornadoState(location, date, lat, lng, dTemp, wind, humidity, tornadoCategory);
+        TornadoState t = new TornadoState(location, date, lat, lng, dTemp,
+                wind, humidity, tornadoCategory);
         cache.add(t);
         tornadoStateRepository.save(t);
     }

@@ -15,7 +15,11 @@ public class TornadoStateConfig {
     @Value("${API_KEY}")
     private String apiKey;
 
+    @Value("${units}")
+    private String units;
+
     public String getApiURL(){
-        return String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=%s", location, apiKey);
+        return String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&APPID=%s&units=%s",
+                location, apiKey, units);
     };
 }
