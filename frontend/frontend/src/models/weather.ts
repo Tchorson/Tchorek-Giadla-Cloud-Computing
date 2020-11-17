@@ -1,6 +1,6 @@
 
 export class weather {
-  date: number;
+  date: Date;
   location: string;
   latitude: number;
   longitude: number;
@@ -8,7 +8,7 @@ export class weather {
   windSpeed: number;
   humidity: number;
   tornadoLvl: string;
-  constructor(date: number, location: string, latitude: number, longitude: number, dTemp: number, windSpeed: number, humidity: number, tornadoLvl: string) {
+  constructor(date: Date, location: string, latitude: number, longitude: number, dTemp: number, windSpeed: number, humidity: number, tornadoLvl: string) {
     this.date = date;
     this.location = location;
     this.latitude = latitude;
