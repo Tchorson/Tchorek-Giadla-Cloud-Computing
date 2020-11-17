@@ -1,7 +1,0 @@
-{
-  "/api": {
-    "target": "localhost",
-    "secure": false,
-    "port": 8099
-  }
-}
