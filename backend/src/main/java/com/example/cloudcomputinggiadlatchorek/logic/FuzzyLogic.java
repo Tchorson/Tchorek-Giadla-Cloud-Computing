@@ -26,7 +26,8 @@ public class FuzzyLogic {
      * Initialization engine of fuzzy logic
      */
     public FuzzyLogic() throws IOException, RuntimeException {
-        File file = new File("backend/src/main/resources/configFiles/fuzzylogic.fll");
+        File file = new File("src/main/resources/configFiles/fuzzylogic.fll");
+        System.out.println(file.getAbsolutePath());
         StringBuilder status = new StringBuilder();
         try {
             this.engine = new FllImporter().fromFile(file);
