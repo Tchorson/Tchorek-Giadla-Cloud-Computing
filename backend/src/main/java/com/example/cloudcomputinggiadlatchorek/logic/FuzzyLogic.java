@@ -8,7 +8,12 @@ import com.fuzzylite.variable.OutputVariable;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 import static java.lang.Math.ceil;
 
@@ -25,9 +30,9 @@ public class FuzzyLogic {
     /**
      * Initialization engine of fuzzy logic
      */
-    public FuzzyLogic() throws IOException, RuntimeException {
-        File file = new File("src/main/resources/configFiles/fuzzylogic.fll");
-        System.out.println(file.getAbsolutePath());
+    public FuzzyLogic() throws IOException, RuntimeException, URISyntaxException {
+        URL res = getClass().getClassLoader().getResource("fuzzylogic.fll");
+        File file = Paths.get(res.toURI()).toFile();
         StringBuilder status = new StringBuilder();
         try {
             this.engine = new FllImporter().fromFile(file);
@@ -35,8 +40,6 @@ public class FuzzyLogic {
         } catch (IOException | RuntimeException e1) {
             System.err.println("Engine can not start.");
         }
-
-        //System.out.println(engine.getOutputVariables().toString());
 
         humidity = engine.getInputVariable("humidity");
         temperature = engine.getInputVariable("temperature");
