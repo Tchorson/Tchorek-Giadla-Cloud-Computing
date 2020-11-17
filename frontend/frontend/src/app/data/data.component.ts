@@ -33,6 +33,7 @@ export class DataComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.importWeatherData();
     const job = new CronJob('0/10 * * * * *', () => {
       this.importWeatherData();
     }, null, true, 'Europe/Warsaw');
@@ -48,10 +49,9 @@ export class DataComponent implements OnInit {
   importWeatherData() {
     this.http.get<weather[]>('http://localhost:8099/getAllRecords', this.httpOptions)
       .subscribe(weatherJsonArray => {
-        console.log(weatherJsonArray);
         this.dailyContainer = new MatTableDataSource(weatherJsonArray.map(weatherJson => {
           return {
-          date: weatherJson.date,
+          date: new Date(Number(weatherJson.date) * 1000),
           location: weatherJson.location,
           latitude: weatherJson.latitude,
           longitude: weatherJson.longitude,
